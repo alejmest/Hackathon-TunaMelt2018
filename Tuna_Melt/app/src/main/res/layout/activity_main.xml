@@ -7,7 +7,7 @@
     tools:context="alejandro.com.tuna_melt.MainActivity">
 
     <Button
-        android:id="@+id/imgsel"
+        android:id="@+id/imgselButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Select image"
@@ -16,8 +16,8 @@
 
     <ImageView
         android:id="@+id/unaltered"
-        android:layout_width="380dp"
-        android:layout_height="507dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
 
         android:visibility="visible"
         tools:layout_editor_absoluteX="2dp"
