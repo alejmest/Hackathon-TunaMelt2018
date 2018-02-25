@@ -33,6 +33,7 @@ public class PlayActivity extends AppCompatActivity {
     private RadioGroup hv;
     private int imgIterator;
     private int sortedRows,sortedCols;
+    private int partitions;
     float hwRat;
 
     @Override
@@ -51,6 +52,7 @@ public class PlayActivity extends AppCompatActivity {
         barText=findViewById(R.id.seekBarAmt);
         hv=findViewById(R.id.horizVert);
         sortedRows=0;
+        partitions=1;
         sortedCols=0;
         imgmelt.setVisibility(View.GONE);//make the melt button invisible until an image is selected
         reset.setVisibility(View.GONE);
@@ -89,6 +91,9 @@ public class PlayActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     img.setImageBitmap(myBitmap);
                     start = 0;
+                    sortedCols=0;
+                    sortedRows=0;
+                    partitions=1;
                 }
             });
         }
@@ -149,23 +154,20 @@ public class PlayActivity extends AppCompatActivity {
                                 }
 
                             }
-                            else
+                            /*else
                             {
                                 for(int x=0;x<myBitmap.getWidth();x++)
                                 {
                                     image = vertPartialSelectionSort(image, x);
                                 }
                                 img.setImageBitmap(image);
-                            }
+                            }*/
                         case R.id.horizontal:
                             horizontal=true;
                             break;
                         default:
                             break;
                     }
-
-                    int partitions=calculatePartitionSize(imgIterator,horizontal,myBitmap.getHeight(),myBitmap.getWidth(),hwRat);
-
 
                     if(imgIterator==10)
                     {
@@ -188,32 +190,53 @@ public class PlayActivity extends AppCompatActivity {
                     }
                     else
                     {
-                        int sortCheck=hv.getCheckedRadioButtonId();
+                        try{
+                            partitions=calculatePartitionSize(imgIterator,horizontal,myBitmap.getHeight(),myBitmap.getWidth(),hwRat);
+                        }catch(Exception e)
+                        {
+                            Toast.makeText(PlayActivity.this,e.toString(),Toast.LENGTH_LONG).show();
+                        }
 
+                        int sortCheck=hv.getCheckedRadioButtonId();
                         switch(sortCheck)
                         {
-                            case R.id.selection:
-                                if(horizontal)
+                            case R.id.horizontal:
+                                if(sortedRows+partitions>myBitmap.getHeight())
                                 {
-                                    for(int x=sortedRows;x<partitions+sortedRows;x++)
+                                    for(int x=sortedRows;x<myBitmap.getHeight();x++)
                                     {
                                         image = horzPartialSelectionSort(image, x * myBitmap.getWidth());
                                     }
-                                    sortedRows+=partitions;
-                                    img.setImageBitmap(image);
+                                    Toast.makeText(PlayActivity.this,"Fully glitched",Toast.LENGTH_LONG).show();
                                 }
                                 else
                                 {
-                                    for(int x=sortedCols;x<partitions+sortedCols;x++)
+                                    for (int x = sortedRows; x < partitions + sortedRows; x++)
+                                    {
+                                        image = horzPartialSelectionSort(image, x * myBitmap.getWidth());
+                                    }
+                                    sortedRows += partitions;
+                                }
+                                img.setImageBitmap(image);
+                                break;
+                            case R.id.vertical:
+                                if(sortedCols+partitions>myBitmap.getWidth())
+                                {
+                                    for(int x=sortedCols;x<myBitmap.getWidth();x++)
                                     {
                                         image=vertPartialSelectionSort(image,x);
                                     }
-                                    sortedCols+=partitions;
-                                    img.setImageBitmap(image);
+                                    Toast.makeText(PlayActivity.this,"Fully glitched",Toast.LENGTH_LONG).show();
                                 }
-                                break;
-                            case R.id.insertion:
-
+                                else
+                                {
+                                    for (int x = sortedCols; x < partitions + sortedCols; x++)
+                                    {
+                                        image = vertPartialSelectionSort(image, x);
+                                    }
+                                    sortedCols += partitions;
+                                }
+                                img.setImageBitmap(image);
                                 break;
                             default:
                                 break;
@@ -235,9 +258,9 @@ public class PlayActivity extends AppCompatActivity {
         mImage.getPixels(pixels, 0, width, 0, 0, width, height);
 
         //selection sort on the pixels
-        for(int i = start; i < pixels.length; i+=width+1){
+        for(int i = start; i < pixels.length; i+=width){
             int min_idx=i;
-            for(int j=i+1; j<pixels.length; j+=width+1){
+            for(int j=i+1; j<pixels.length; j+=width){
                 if(pixels[j] < pixels[min_idx]){
                     min_idx=j;
                 }
@@ -286,9 +309,9 @@ public class PlayActivity extends AppCompatActivity {
     int calculatePartitionSize(int speed,boolean horizontal,int h,int w,float ratio)
     {
         if(horizontal)
-            return h/(speed+1);
+            return h/(40-(4*speed));
         else
-            return w/(speed+1);
+            return w/(30-(2*speed));
     }
 
     @Override
