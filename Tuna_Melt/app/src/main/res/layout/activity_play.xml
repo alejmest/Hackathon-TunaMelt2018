@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="alejandro.com.tuna_melt.PlayActivity">
+
+    <Button
+        android:id="@+id/imgsel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select image"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp" />
+
+    <Button
+        android:id="@+id/imgmelt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:text="Melt!"
+        app:layout_constraintStart_toEndOf="@+id/imgsel"
+        tools:layout_editor_absoluteY="0dp" />
+
+    <Button
+        android:id="@+id/reset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:text="Reset"
+        app:layout_constraintStart_toEndOf="@+id/imgmelt"
+        tools:layout_editor_absoluteY="0dp" />
+
+
+    <ImageView
+        android:id="@+id/unaltered"
+        android:layout_width="match_parent"
+        android:layout_height="420dp"
+        android:background="#000000"
+        android:padding="3dp"
+        android:layout_marginTop="8dp"
+        android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@+id/imgsel"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <RadioGroup
+        android:id="@+id/radioSort"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/unaltered"
+        tools:layout_editor_absoluteX="0dp">
+
+        <RadioButton
+            android:id="@+id/selection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="Selection"
+            app:layout_constraintTop_toBottomOf="@+id/unaltered"
+            tools:layout_editor_absoluteX="0dp" />
+
+        <RadioButton
+            android:id="@+id/insertion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Insertion"
+            app:layout_constraintStart_toEndOf="@+id/selection"
+            app:layout_constraintTop_toBottomOf="@+id/unaltered" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/seekBarAmt"
+        android:layout_width="364dp"
+        android:layout_height="55dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:inputType="number"
+        android:text="glitch speed"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radioSort" />
+
+    <SeekBar
+        android:id="@+id/incAmt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:max="10"
+        app:layout_constraintTop_toBottomOf="@+id/seekBarAmt"
+        tools:layout_editor_absoluteX="0dp" />
+
+
+</android.support.constraint.ConstraintLayout>
