@@ -11,6 +11,9 @@
         <TextView
             android:id="@+id/textView1"
             android:layout_width="match_parent"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:textSize="14dp"
             android:layout_height="match_parent"
             android:text="
             			\n
@@ -48,6 +51,7 @@
 						\n
 						\n
 						" />
+
 
     </ScrollView>
 
