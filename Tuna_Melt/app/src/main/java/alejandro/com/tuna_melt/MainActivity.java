@@ -15,8 +15,7 @@ import android.app.Activity;
 import android.net.Uri;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity
-{
+public class MainActivity extends AppCompatActivity {
 
     private Bitmap mImage=null;
     private boolean mIsError = false;
@@ -25,7 +24,6 @@ public class MainActivity extends AppCompatActivity
     private int GALLERY_REQUEST=-1;
     private int imgIterator;
     int start=0;
-public class MainActivity extends AppCompatActivity {
     
     @Override
     protected void onCreate(Bundle savedInstanceState)
