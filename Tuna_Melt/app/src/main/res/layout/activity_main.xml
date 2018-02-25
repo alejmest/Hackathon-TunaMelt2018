@@ -23,5 +23,4 @@
         app:layout_constraintStart_toEndOf="@+id/playbtn"
         tools:layout_editor_absoluteY="0dp" />
 
-
 </android.support.constraint.ConstraintLayout>

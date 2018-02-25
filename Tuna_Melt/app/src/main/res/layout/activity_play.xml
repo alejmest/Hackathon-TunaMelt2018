@@ -71,5 +71,26 @@
             app:layout_constraintTop_toBottomOf="@+id/unaltered" />
     </RadioGroup>
 
+    <TextView
+        android:id="@+id/seekBarAmt"
+        android:layout_width="364dp"
+        android:layout_height="55dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:inputType="number"
+        android:text="glitch speed"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radioSort" />
+
+    <SeekBar
+        android:id="@+id/incAmt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:max="10"
+        app:layout_constraintTop_toBottomOf="@+id/seekBarAmt"
+        tools:layout_editor_absoluteX="0dp" />
+
 
 </android.support.constraint.ConstraintLayout>

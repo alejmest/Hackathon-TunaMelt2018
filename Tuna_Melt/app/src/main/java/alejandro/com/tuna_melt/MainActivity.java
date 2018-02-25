@@ -6,6 +6,7 @@ import android.view.*;
 import android.widget.Button;
 
 
+
 public class MainActivity extends AppCompatActivity {
     private Button playbtn, learnbtn;
 
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(goPlay);
             }
         });
+
 
         learnbtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
