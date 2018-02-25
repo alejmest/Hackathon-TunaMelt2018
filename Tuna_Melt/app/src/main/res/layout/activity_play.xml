@@ -80,6 +80,7 @@
             android:layout_height="wrap_content"
             android:text="Merge"
             android:paddingHorizontal="17dp"
+            android:visibility="gone"
             app:layout_constraintStart_toEndOf="@+id/insertion"
             app:layout_constraintTop_toBottomOf="@+id/incAmt" />
     </RadioGroup>

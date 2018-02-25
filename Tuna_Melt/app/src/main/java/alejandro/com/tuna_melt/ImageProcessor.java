@@ -91,7 +91,7 @@ public class ImageProcessor {
 
         Bitmap newImage = Bitmap.createBitmap(width, height, mImage.getConfig());
         newImage.setPixels(pixels, 0, width, 0, 0, width, height);
-
+        isDone=true;
         return newImage;
     }
 
@@ -153,7 +153,7 @@ public class ImageProcessor {
 
         Bitmap newImage = Bitmap.createBitmap(width, height, mImage.getConfig());
         newImage.setPixels(pixels, 0, width, 0, 0, width, height);
-
+        isDone = true;
         return newImage;
     }
 
