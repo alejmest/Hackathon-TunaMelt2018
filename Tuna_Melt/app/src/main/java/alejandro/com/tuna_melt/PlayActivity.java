@@ -108,7 +108,7 @@ public class PlayActivity extends AppCompatActivity {
                     } catch (Exception e) {
                         imgIterator = 0;
                     }
-
+                    Bitmap image=((BitmapDrawable)img.getDrawable()).getBitmap();
                     boolean horizontal=false;
                     int hCheck=hv.getCheckedRadioButtonId();
                     switch(hCheck)
@@ -116,48 +116,7 @@ public class PlayActivity extends AppCompatActivity {
                         case R.id.horizontal:
                             horizontal=true;
                             break;
-                        default:
-                            break;
-                    }
-                    double dpartitions=calculatePartitionSize(imgIterator,horizontal,myBitmap.getHeight(),myBitmap.getWidth(),hwRat);
-                    int partitions=(int)dpartitions;
-                    Bitmap image=((BitmapDrawable)img.getDrawable()).getBitmap();
-                    Toast.makeText(PlayActivity.this,"parts: "+partitions+" img"+imgIterator,Toast.LENGTH_LONG).show();
-                    if(imgIterator==10) {
-                        if (horizontal) {
-                            for (int x = 0; x < myBitmap.getHeight(); x++) {
-                                image = horzPartialSelectionSort(image, x * myBitmap.getWidth());
-                            }
-                        }
-                    }
-                    else {
-                        int sortCheck=hv.getCheckedRadioButtonId();
-                        switch(sortCheck)
-                        {
-                            case R.id.selection:
-                                if(horizontal)
-                                {
-                                    for(int x=0;x<partitions;x++)
-                                    {
-                                        image = horzPartialSelectionSort(image, x * myBitmap.getWidth());
-                                    }
-                                    img.setImageBitmap(image);
-                                }
-                                else
-                                {
-                                    for(int x=0;x<partitions;x++)
-                                    {
-                                        image=vertPartialSelectionSort(image,x);
-                                    }
-                                }
-                                break;
-                            case R.id.insertion:
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                    if(/*if all button is selected*/) {
+                        case R.id.fullsort:
                             Bitmap selectedimg = ((BitmapDrawable) img.getDrawable()).getBitmap();
                             ImageProcessor alteredimg = new ImageProcessor(selectedimg);
                             boolean notDone = !alteredimg.isDone;
@@ -201,13 +160,55 @@ public class PlayActivity extends AppCompatActivity {
                                 }
                                 img.setImageBitmap(image);
                             }
-
-                            /*Bitmap selectedimg = ((BitmapDrawable)img.getDrawable()).getBitmap();
-                            ImageProcessor alteredimg = new ImageProcessor(selectedimg);
-                            Toast.makeText(MainActivity.this, "Image melting...", Toast.LENGTH_SHORT).show();
-                            img.setImageBitmap(alteredimg.insertionSort());*/
+                        default:
+                            break;
                     }
 
+                    int partitions=calculatePartitionSize(imgIterator,horizontal,myBitmap.getHeight(),myBitmap.getWidth(),hwRat);
+
+
+                    if(imgIterator==10)
+                    {
+                        if (horizontal)
+                        {
+                            for (int x = 0; x < myBitmap.getHeight(); x++)
+                            {
+                                image = horzPartialSelectionSort(image, x * myBitmap.getWidth());
+                            }
+                        }
+                    }
+                    else
+                    {
+                        int sortCheck=hv.getCheckedRadioButtonId();
+                        switch(sortCheck)
+                        {
+                            case R.id.selection:
+                                if(horizontal)
+                                {
+                                    for(int x=sortedRows;x<partitions+sortedRows;x++)
+                                    {
+                                        image = horzPartialSelectionSort(image, x * myBitmap.getWidth());
+                                    }
+                                    sortedRows+=partitions;
+                                    img.setImageBitmap(image);
+                                }
+                                else
+                                {
+                                    for(int x=sortedCols;x<partitions+sortedCols;x++)
+                                    {
+                                        image=vertPartialSelectionSort(image,x);
+                                    }
+                                    sortedCols+=partitions;
+                                    img.setImageBitmap(image);
+                                }
+                                break;
+                            case R.id.insertion:
+
+                                break;
+                            default:
+                                break;
+                        }
+                    }
                 }
             });
         }
