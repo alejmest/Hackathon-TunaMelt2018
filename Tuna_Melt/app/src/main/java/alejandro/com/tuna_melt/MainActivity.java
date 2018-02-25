@@ -1,5 +1,7 @@
 package alejandro.com.tuna_melt;
-
+import android.provider.MediaStore;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import android.app.Activity;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import android.net.Uri;
 
@@ -36,10 +39,10 @@ public class MainActivity extends AppCompatActivity
         {
             public void onClick(View v) {
 
-                Intent photoPickerIntent = new Intent();
+                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 photoPickerIntent.setType("image/*");
-                startActivityForResult(Intent.createChooser(photoPickerIntent,"Select Picture:"), 0);
-
+                startActivityForResult(photoPickerIntent, 0);
+                Toast.makeText(MainActivity.this, "image selected", Toast.LENGTH_LONG).show();
             }
 
         });
@@ -51,38 +54,21 @@ public class MainActivity extends AppCompatActivity
         Toast.makeText(this, "entered method:  "+resultCode+" "+Activity.RESULT_OK, Toast.LENGTH_SHORT).show();
         super.onActivityResult(reqCode, resultCode, data);
 
+        if (resultCode == Activity.RESULT_OK && resultCode == GALLERY_REQUEST) {
+            final Uri imageURI = data.getData();
+            try {
+                Bitmap selectedImage = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageURI);
+                Toast.makeText(MainActivity.this, "Image Saved!", Toast.LENGTH_SHORT).show();
+                img.setImageBitmap(selectedImage);
 
-        if (resultCode == Activity.RESULT_OK && resultCode == GALLERY_REQUEST)
-        {
-            if(data==null||data.getData()==null)
-            {
-                Toast.makeText(MainActivity.this,"nothing in data",Toast.LENGTH_LONG).show();
+            } catch (IOException e) {
+                e.printStackTrace();
+                Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_LONG).show();
             }
-            else
-            {
-                Toast.makeText(MainActivity.this,"something in data: "+data.toString().substring(0,10),Toast.LENGTH_LONG).show();
-                try {
-                    final Uri imageURI = data.getData();
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageURI);
 
-
-                    ImageView img = findViewById(R.id.unaltered);
-                    img.setImageBitmap(bitmap);
-
-                } catch (FileNotFoundException e)
-                {
-                    e.printStackTrace();
-                    Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_LONG).show();
-                }
-                catch(IOException e)
-                {
-                    e.printStackTrace();
-                }
-            }
         }
-        else
-        {
-            Toast.makeText(this, "error:  "+resultCode+" "+Activity.RESULT_OK, Toast.LENGTH_SHORT).show();
+        else {
+            Toast.makeText(MainActivity.this, "you haven't picked an image  " + resultCode + "  " + GALLERY_REQUEST, Toast.LENGTH_LONG).show();
         }
     }
 }
