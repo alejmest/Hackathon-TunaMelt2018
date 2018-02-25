@@ -15,6 +15,8 @@ import android.app.Activity;
 import android.net.Uri;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
@@ -26,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
     private RadioGroup sortgroup;
     private int GALLERY_REQUEST=-1;
     private int imgIterator;
+    private SeekBar bar;
+    private TextView barText;
     int start=0;
     
     @Override
@@ -38,10 +42,11 @@ public class MainActivity extends AppCompatActivity {
         imgmelt = findViewById(R.id.imgmelt);
         img = findViewById(R.id.unaltered);
         sortgroup = findViewById(R.id.radioSort);
-
-
+        bar=findViewById(R.id.incAmt);
+        bar.setMax(10);
+        bar.setProgress(0);
+        barText=findViewById(R.id.seekBarAmt);
         imgmelt.setVisibility(View.GONE);//make the melt button invisible until an image is selected
-        img.setImageResource(R.drawable.ic_launcher_background);
         imgsel.setOnClickListener(new View.OnClickListener()
         {
             public void onClick(View v) {
@@ -53,7 +58,22 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
+        bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                barText.setText(String.valueOf(i));
+            }
 
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
         if(imgmelt.isCursorVisible()){
             imgmelt.setOnClickListener(new View.OnClickListener(){
                 public void onClick(View v){
@@ -64,36 +84,50 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "Image melting...", Toast.LENGTH_SHORT).show();
                     img.setImageBitmap(alteredimg.insertionSort());
                     */
-
-
-                    Bitmap selectedimg = ((BitmapDrawable)img.getDrawable()).getBitmap();
-                    ImageProcessor alteredimg = new ImageProcessor(selectedimg);
-                    boolean notDone = !alteredimg.isDone;
-                    if(notDone) {
-                        int checked = sortgroup.getCheckedRadioButtonId();
-                        switch (checked) {
-                            case R.id.selection://melts by parts, selection
-                                selectedimg = ((BitmapDrawable) img.getDrawable()).getBitmap();
-                                alteredimg = new ImageProcessor(selectedimg);
-                                img.setImageBitmap(alteredimg.partialSelectionSort(start, 1000));
-                                start += 1000;
-                                notDone = !alteredimg.isDone;
-                                break;
-
-                            case R.id.insertion://melts by parts, insertion
-                                selectedimg = ((BitmapDrawable) img.getDrawable()).getBitmap();
-                                alteredimg = new ImageProcessor(selectedimg);
-                                img.setImageBitmap(alteredimg.partialInsertionSort(start, 1000));
-                                start += 1000;
-                                notDone = !alteredimg.isDone;
-                                break;
-
-                            default:
-                                break;
-                        }
+                    try
+                    {
+                        imgIterator=Integer.parseInt(barText.getText().toString());
+                    }catch(Exception e)
+                    {
+                        imgIterator=0;
                     }
-                    else{
-                        Toast.makeText(MainActivity.this, "Image melted!", Toast.LENGTH_SHORT).show();
+
+                    if(imgIterator==10)
+                    {
+                        Bitmap selectedimg = ((BitmapDrawable)img.getDrawable()).getBitmap();
+                        ImageProcessor alteredimg = new ImageProcessor(selectedimg);
+                        Toast.makeText(MainActivity.this, "Image melting...", Toast.LENGTH_SHORT).show();
+                        img.setImageBitmap(alteredimg.insertionSort());
+                    }
+                    else {
+                        Bitmap selectedimg = ((BitmapDrawable) img.getDrawable()).getBitmap();
+                        ImageProcessor alteredimg = new ImageProcessor(selectedimg);
+                        boolean notDone = !alteredimg.isDone;
+                        if (notDone) {
+                            int checked = sortgroup.getCheckedRadioButtonId();
+                            switch (checked) {
+                                case R.id.selection://melts by parts, selection
+                                    selectedimg = ((BitmapDrawable) img.getDrawable()).getBitmap();
+                                    alteredimg = new ImageProcessor(selectedimg);
+                                    img.setImageBitmap(alteredimg.partialSelectionSort(start, 1000*(imgIterator+1)));
+                                    start += 1000*(imgIterator+1);
+                                    notDone = !alteredimg.isDone;
+                                    break;
+
+                                case R.id.insertion://melts by parts, insertion
+                                    selectedimg = ((BitmapDrawable) img.getDrawable()).getBitmap();
+                                    alteredimg = new ImageProcessor(selectedimg);
+                                    img.setImageBitmap(alteredimg.partialInsertionSort(start, 1000*(imgIterator+1)));
+                                    start += 1000*(imgIterator+1);
+                                    notDone = !alteredimg.isDone;
+                                    break;
+
+                                default:
+                                    break;
+                            }
+                        } else {
+                            Toast.makeText(MainActivity.this, "Image melted!", Toast.LENGTH_SHORT).show();
+                        }
                     }
 
 
