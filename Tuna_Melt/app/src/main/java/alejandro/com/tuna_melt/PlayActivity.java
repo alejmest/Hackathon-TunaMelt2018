@@ -133,6 +133,14 @@ public class PlayActivity extends AppCompatActivity {
                                     notDone = !alteredimg.isDone;
                                     break;
 
+                                case R.id.merge://melts by parts, merge
+                                    selectedimg = ((BitmapDrawable) img.getDrawable()).getBitmap();
+                                    alteredimg = new ImageProcessor(selectedimg);
+                                    img.setImageBitmap(alteredimg.mergeSort());
+                                    //start += 1000 * (imgIterator + 1);
+                                    notDone = !alteredimg.isDone;
+                                    break;
+
                                 default:
                                     break;
                             }

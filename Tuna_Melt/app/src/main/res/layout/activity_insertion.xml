@@ -14,36 +14,33 @@
             android:layout_height="match_parent"
             android:text="
             			\n
+            			\nInsertion Sort
 						\n
 						\n
+						\nThe Algorithm:
+						\n
+						\nStart with the second element
+						\nIf it's smaller than the first
+						\nelement, swap them
+						\nIf not, leave them alone
+						\nNow we the first two are sorted
+						\nMove to the third element
+						\nPlace it in order with the first
+						\ntwo elements
+						\nNow we have three sorted elements
+						\nKeep putting the next element in
+						\nits sorted place until the entire
+						\nlist is sorted
 						\n
 						\n
-						\n
-						\n
-						\n
-						\n
-						\n
-						\n
-						\n
-						\n
-						\n
-						\n
-						\n
-						\n
-						\n
-						\n
-						\n
-						\n
-						\n
-						\n
-						\n
-						\n
-						\n
-						\n
-						\n
-						\n
-						\n
-						\n
+						\nFun Facts:
+						\
+						\n*Most people sort card using a method
+						\n similar to insertion sort
+						\n*Like selection sort, insertion
+						\n is one of the slower sorts
+						\n*Each element in the list is checked twice
+						\n when sorting
 						\n
 						\n
 						\n

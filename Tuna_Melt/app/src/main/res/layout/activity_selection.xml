@@ -14,36 +14,26 @@
             android:layout_height="match_parent"
             android:text="
             			\n
+            			\nSelection Sort
 						\n
 						\n
+						\nThe Algorithm:
+						\n
+						\nFind the smallest element in the list
+						\nPut it in the first place
+						\nNow the first element is sorted
+						\nFind the next smallest element
+						\nPut it in the second place
+						\nNow the first two elements are sorted
+						\nKeep doing this until all the elements are sorted
 						\n
 						\n
+						\nFun Facts:
 						\n
-						\n
-						\n
-						\n
-						\n
-						\n
-						\n
-						\n
-						\n
-						\n
-						\n
-						\n
-						\n
-						\n
-						\n
-						\n
-						\n
-						\n
-						\n
-						\n
-						\n
-						\n
-						\n
-						\n
-						\n
-						\n
+						\n*This sort, like insertion sort,
+						\n is one of the slower sorts
+						\n*Each element in the list is checked twice
+						\n when sorting
 						\n
 						\n
 						\n
