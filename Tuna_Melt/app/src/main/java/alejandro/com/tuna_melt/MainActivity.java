@@ -24,6 +24,9 @@ public class MainActivity extends AppCompatActivity
     private Button imgsel, imgmelt;
     private int GALLERY_REQUEST=-1;
     private int imgIterator;
+    int start=0;
+public class MainActivity extends AppCompatActivity {
+    
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -51,12 +54,27 @@ public class MainActivity extends AppCompatActivity
         if(imgmelt.isCursorVisible()){
             imgmelt.setOnClickListener(new View.OnClickListener(){
                 public void onClick(View v){
+                    /*
+                    //Melts the whole image
                     Bitmap selectedimg = ((BitmapDrawable)img.getDrawable()).getBitmap();
-                    //ImageProcessor alteredimg = new ImageProcessor(selectedimg);
-                    //Toast.makeText(MainActivity.this, "Image melting...", Toast.LENGTH_SHORT).show();
-                    img.setImageBitmap(selectionSort(selectedimg));
-
-
+                    ImageProcessor alteredimg = new ImageProcessor(selectedimg);
+                    Toast.makeText(MainActivity.this, "Image melting...", Toast.LENGTH_SHORT).show();
+                    img.setImageBitmap(alteredimg.selectionSort());
+                    */
+                    //melts by parts
+                    Bitmap selectedimg = ((BitmapDrawable)img.getDrawable()).getBitmap();
+                    ImageProcessor alteredimg = new ImageProcessor(selectedimg);
+                    boolean notDone = !alteredimg.isDone;
+                    if(notDone) {
+                        selectedimg = ((BitmapDrawable) img.getDrawable()).getBitmap();
+                        alteredimg = new ImageProcessor(selectedimg);
+                        img.setImageBitmap(alteredimg.partialSelectionSort(start, 1000));
+                        start += 1000;
+                        notDone = !alteredimg.isDone;
+                    }
+                    else{
+                        Toast.makeText(MainActivity.this, "Image melted!", Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
         }
