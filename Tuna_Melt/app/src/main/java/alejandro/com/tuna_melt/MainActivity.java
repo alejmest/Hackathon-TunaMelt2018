@@ -1,6 +1,11 @@
 package alejandro.com.tuna_melt;
 
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
     ImageView img;
     Button imgsel, imgmelt;
     int GALLERY_REQUEST=-1;
+    int start = 0;
+    static Bitmap myBitmap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,10 +54,28 @@ public class MainActivity extends AppCompatActivity {
         if(imgmelt.isCursorVisible()){
             imgmelt.setOnClickListener(new View.OnClickListener(){
                 public void onClick(View v){
+                    /*
+                    Toast.makeText(MainActivity.this, "Image melting...", Toast.LENGTH_SHORT).show();
                     Bitmap selectedimg = ((BitmapDrawable)img.getDrawable()).getBitmap();
                     ImageProcessor alteredimg = new ImageProcessor(selectedimg);
-                    Toast.makeText(MainActivity.this, "Image melting...", Toast.LENGTH_SHORT).show();
                     img.setImageBitmap(alteredimg.selectionSort());
+                    */
+
+                    /*
+                    Bitmap selectedimg = ((BitmapDrawable)img.getDrawable()).getBitmap();
+                    ImageProcessor alteredimg = new ImageProcessor(selectedimg);
+
+                    while(!alteredimg.isDone){
+                        selectedimg = ((BitmapDrawable)img.getDrawable()).getBitmap();
+                        alteredimg = new ImageProcessor(selectedimg);
+                        img.setImageBitmap(alteredimg.partialSelectionSort(start, start+5000));
+                        start += 5000;
+                    }
+                    */
+                    myBitmap = ((BitmapDrawable)img.getDrawable()).getBitmap();
+                    Intent showAnimation = new Intent(MainActivity.this, AnimateActivity.class);
+                    startActivity(showAnimation);
+
                 }
             });
         }
@@ -66,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
             final Uri imageURI = data.getData();
             try {
                 Bitmap selectedImage = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageURI);
-                Toast.makeText(MainActivity.this, "Image Saved!", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this, "Image Saved!", Toast.LENGTH_SHORT).show();
                 img.setImageBitmap(selectedImage);
                 imgmelt.setVisibility(View.VISIBLE);//make the melt button visible
 
@@ -80,5 +105,7 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this, "you haven't picked an image  " + resultCode + "  " + GALLERY_REQUEST, Toast.LENGTH_LONG).show();
         }
     }
+
+
 }
 
