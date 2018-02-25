@@ -49,8 +49,10 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:gravity="center"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/unaltered"
+        android:paddingTop="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/incAmt"
         tools:layout_editor_absoluteX="0dp">
 
         <RadioButton
@@ -59,34 +61,37 @@
             android:layout_height="wrap_content"
             android:checked="true"
             android:text="Selection"
-            app:layout_constraintTop_toBottomOf="@+id/unaltered"
+            android:paddingHorizontal="17dp"
+            app:layout_constraintTop_toBottomOf="@+id/incAmt"
             tools:layout_editor_absoluteX="0dp" />
 
         <RadioButton
             android:id="@+id/insertion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingHorizontal="17dp"
             android:text="Insertion"
             app:layout_constraintStart_toEndOf="@+id/selection"
-            app:layout_constraintTop_toBottomOf="@+id/unaltered" />
+            app:layout_constraintTop_toBottomOf="@+id/incAmt" />
 
         <RadioButton
             android:id="@+id/merge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Merge"
+            android:paddingHorizontal="17dp"
             app:layout_constraintStart_toEndOf="@+id/insertion"
-            app:layout_constraintTop_toBottomOf="@+id/unaltered" />
+            app:layout_constraintTop_toBottomOf="@+id/incAmt" />
     </RadioGroup>
 
     <TextView
         android:id="@+id/seekBarAmt"
-        android:layout_width="364dp"
-        android:layout_height="55dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
         android:inputType="number"
-        android:text="glitch speed"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/radioSort" />
@@ -97,7 +102,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:max="10"
-        app:layout_constraintTop_toBottomOf="@+id/seekBarAmt"
+        app:layout_constraintTop_toBottomOf="@+id/horizVert"
         tools:layout_editor_absoluteX="0dp" />
 
     <RadioGroup
@@ -106,28 +111,38 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/incAmt"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:gravity="center_horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/unaltered"
         tools:layout_editor_absoluteX="0dp">
 
+        <RadioButton
+            android:id="@+id/fullsort"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Full Sort"
+            android:checked="true"
+            android:paddingHorizontal="19dp"
+            app:layout_constraintTop_toBottomOf="@+id/unaltered"
+            tools:layout_editor_absoluteX="0dp"/>
         <RadioButton
             android:id="@+id/horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checked="true"
-            android:text="Horizontal"
+            android:paddingHorizontal="19dp"
+            android:text="Rows"
             app:layout_constraintTop_toBottomOf="@+id/unaltered"
-            tools:layout_editor_absoluteX="0dp" />
+            />
 
         <RadioButton
             android:id="@+id/vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Vertical" />
-        <RadioButton
-            android:id="@+id/fullsort"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Full glitching" />
+            android:paddingHorizontal="19dp"
+            android:text="Columns"
+            app:layout_constraintTop_toBottomOf="@+id/unaltered"/>
+
     </RadioGroup>
 
 </android.support.constraint.ConstraintLayout>

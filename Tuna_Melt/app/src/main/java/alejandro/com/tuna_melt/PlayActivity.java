@@ -48,7 +48,7 @@ public class PlayActivity extends AppCompatActivity {
         sortgroup = findViewById(R.id.radioSort);
         bar=findViewById(R.id.incAmt);
         bar.setMax(10);
-        bar.setProgress(0);
+        bar.setProgress(5);
         barText=findViewById(R.id.seekBarAmt);
         hv=findViewById(R.id.horizVert);
         sortedRows=0;
@@ -86,6 +86,16 @@ public class PlayActivity extends AppCompatActivity {
             }
         });
 
+        hv.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener(){
+            public void onCheckedChanged(RadioGroup group, int checkedId){
+                int hCheck=hv.getCheckedRadioButtonId();
+                if(hCheck==R.id.fullsort){
+                    sortgroup.setVisibility(View.VISIBLE);
+                }else{
+                    sortgroup.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
         if(reset.isCursorVisible()) {
             reset.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
@@ -163,9 +173,11 @@ public class PlayActivity extends AppCompatActivity {
                                 img.setImageBitmap(image);
                             }*/
                         case R.id.horizontal:
+
                             horizontal=true;
                             break;
                         default:
+
                             break;
                     }
 
