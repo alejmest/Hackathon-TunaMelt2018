@@ -114,7 +114,7 @@ public class PlayActivity extends AppCompatActivity {
                     switch(hCheck)
                     {
                         case R.id.fullsort:
-                            Bitmap selectedimg = ((BitmapDrawable) img.getDrawable()).getBitmap();
+                            Bitmap selectedimg = myBitmap;
                             ImageProcessor alteredimg = new ImageProcessor(selectedimg);
                             boolean notDone = !alteredimg.isDone;
                             if (notDone) {
@@ -147,7 +147,7 @@ public class PlayActivity extends AppCompatActivity {
                                     default:
                                         break;
                                 }
-                                img.setImageBitmap(image);
+
                             }
                             else
                             {
@@ -189,6 +189,7 @@ public class PlayActivity extends AppCompatActivity {
                     else
                     {
                         int sortCheck=hv.getCheckedRadioButtonId();
+
                         switch(sortCheck)
                         {
                             case R.id.selection:
