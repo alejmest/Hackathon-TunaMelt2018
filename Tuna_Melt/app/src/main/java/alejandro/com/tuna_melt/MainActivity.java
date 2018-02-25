@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     ImageView img;
     Button imgsel, imgmelt;
     int GALLERY_REQUEST=-1;
+    int start=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,10 +48,25 @@ public class MainActivity extends AppCompatActivity {
         if(imgmelt.isCursorVisible()){
             imgmelt.setOnClickListener(new View.OnClickListener(){
                 public void onClick(View v){
+                    /*
                     Bitmap selectedimg = ((BitmapDrawable)img.getDrawable()).getBitmap();
                     ImageProcessor alteredimg = new ImageProcessor(selectedimg);
                     Toast.makeText(MainActivity.this, "Image melting...", Toast.LENGTH_SHORT).show();
                     img.setImageBitmap(alteredimg.selectionSort());
+                    */
+                    Bitmap selectedimg = ((BitmapDrawable)img.getDrawable()).getBitmap();
+                    ImageProcessor alteredimg = new ImageProcessor(selectedimg);
+                    boolean notDone = !alteredimg.isDone;
+                    if(notDone) {
+                        selectedimg = ((BitmapDrawable) img.getDrawable()).getBitmap();
+                        alteredimg = new ImageProcessor(selectedimg);
+                        img.setImageBitmap(alteredimg.partialSelectionSort(start, 1000));
+                        start += 1000;
+                        notDone = !alteredimg.isDone;
+                    }
+                    else{
+                        Toast.makeText(MainActivity.this, "Image melted!", Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
         }
