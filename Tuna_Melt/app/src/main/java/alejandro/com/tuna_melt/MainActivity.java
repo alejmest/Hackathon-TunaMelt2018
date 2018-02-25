@@ -1,5 +1,6 @@
 package alejandro.com.tuna_melt;
 
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Intent;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import android.app.Activity;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import android.net.Uri;
 
@@ -30,9 +32,9 @@ public class MainActivity extends AppCompatActivity {
         imgsel.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 photoPickerIntent.setType("image/*");
-                startActivityForResult(photoPickerIntent, GALLERY_REQUEST);
+                startActivityForResult(photoPickerIntent, 0);
                 Toast.makeText(MainActivity.this, "image selected", Toast.LENGTH_LONG).show();
             }
 
@@ -46,21 +48,19 @@ public class MainActivity extends AppCompatActivity {
 
 
         if (resultCode == Activity.RESULT_OK && resultCode == GALLERY_REQUEST) {
+            final Uri imageURI = data.getData();
             try {
-                final Uri imageURI = data.getData();
-                final InputStream imageStream = getContentResolver().openInputStream(imageURI);
-                final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-
-
+                Bitmap selectedImage = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageURI);
+                Toast.makeText(MainActivity.this, "Image Saved!", Toast.LENGTH_SHORT).show();
                 img.setImageBitmap(selectedImage);
 
-
-            } catch (FileNotFoundException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
                 Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_LONG).show();
             }
 
-        } else {
+        }
+        else {
             Toast.makeText(MainActivity.this, "you haven't picked an image  " + resultCode + "  " + GALLERY_REQUEST, Toast.LENGTH_LONG).show();
         }
     }
