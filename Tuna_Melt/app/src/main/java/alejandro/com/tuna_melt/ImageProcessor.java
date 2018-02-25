@@ -1,8 +1,5 @@
 package alejandro.com.tuna_melt;
 
-/**
- * Created by Gina on 2/24/2018.
- */
 
 import android.graphics.Bitmap;
 
@@ -66,7 +63,7 @@ public class ImageProcessor {
     }
 
     //perform a selection sort on the pixels
-    public Bitmap selectionSort(){
+    public Bitmap selectionSorter(){
         if(mImage == null) {
             return null;
         }
@@ -80,7 +77,7 @@ public class ImageProcessor {
         for(int i = 0; i < pixels.length; i++){
             int min_idx=i;
             for(int j=i+1; j<pixels.length; j++){
-                if(pixels[j] < pixels[min_idx]){
+                if(pixels[j] > pixels[min_idx]){
                     min_idx=j;
                 }
             }
