@@ -123,29 +123,12 @@ public class PlayActivity extends AppCompatActivity {
                     int partitions=(int)dpartitions;
                     Bitmap image=((BitmapDrawable)img.getDrawable()).getBitmap();
                     Toast.makeText(PlayActivity.this,"parts: "+partitions+" img"+imgIterator,Toast.LENGTH_LONG).show();
-                    if(imgIterator==10)
-                    {
-                        if(horizontal)
-                        {
-                            for(int x=0;x<myBitmap.getHeight();x++)
-                            {
+                    if(imgIterator==10) {
+                        if (horizontal) {
+                            for (int x = 0; x < myBitmap.getHeight(); x++) {
                                 image = horzPartialSelectionSort(image, x * myBitmap.getWidth());
                             }
-                            img.setImageBitmap(image);
                         }
-                        else
-                        {
-                            for(int x=0;x<myBitmap.getWidth();x++)
-                            {
-                                image = vertPartialSelectionSort(image, x);
-                            }
-                            img.setImageBitmap(image);
-                        }
-
-                        /*Bitmap selectedimg = ((BitmapDrawable)img.getDrawable()).getBitmap();
-                        ImageProcessor alteredimg = new ImageProcessor(selectedimg);
-                        Toast.makeText(MainActivity.this, "Image melting...", Toast.LENGTH_SHORT).show();
-                        img.setImageBitmap(alteredimg.insertionSort());*/
                     }
                     else {
                         int sortCheck=hv.getCheckedRadioButtonId();
@@ -174,6 +157,57 @@ public class PlayActivity extends AppCompatActivity {
                                 break;
                         }
                     }
+                    if(/*if all button is selected*/) {
+                            Bitmap selectedimg = ((BitmapDrawable) img.getDrawable()).getBitmap();
+                            ImageProcessor alteredimg = new ImageProcessor(selectedimg);
+                            boolean notDone = !alteredimg.isDone;
+                            if (notDone) {
+                                int checked = sortgroup.getCheckedRadioButtonId();
+                                switch (checked) {
+                                    case R.id.selection://melts by parts, selection
+                                        selectedimg = ((BitmapDrawable) img.getDrawable()).getBitmap();
+                                        alteredimg = new ImageProcessor(selectedimg);
+                                        img.setImageBitmap(alteredimg.partialSelectionSort(start, 1000 * (imgIterator + 1)));
+                                        start += 1000 * (imgIterator + 1);
+                                        notDone = !alteredimg.isDone;
+                                        break;
+
+                                    case R.id.insertion://melts by parts, insertion
+                                        selectedimg = ((BitmapDrawable) img.getDrawable()).getBitmap();
+                                        alteredimg = new ImageProcessor(selectedimg);
+                                        img.setImageBitmap(alteredimg.partialInsertionSort(start, 1000 * (imgIterator + 1)));
+                                        start += 1000 * (imgIterator + 1);
+                                        notDone = !alteredimg.isDone;
+                                        break;
+
+                                    case R.id.merge://melts by parts, merge
+                                        selectedimg = ((BitmapDrawable) img.getDrawable()).getBitmap();
+                                        alteredimg = new ImageProcessor(selectedimg);
+                                        img.setImageBitmap(alteredimg.mergeSort());
+                                        //start += 1000 * (imgIterator + 1);
+                                        notDone = !alteredimg.isDone;
+                                        break;
+
+                                    default:
+                                        break;
+                                }
+                                img.setImageBitmap(image);
+                            }
+                            else
+                            {
+                                for(int x=0;x<myBitmap.getWidth();x++)
+                                {
+                                    image = vertPartialSelectionSort(image, x);
+                                }
+                                img.setImageBitmap(image);
+                            }
+
+                            /*Bitmap selectedimg = ((BitmapDrawable)img.getDrawable()).getBitmap();
+                            ImageProcessor alteredimg = new ImageProcessor(selectedimg);
+                            Toast.makeText(MainActivity.this, "Image melting...", Toast.LENGTH_SHORT).show();
+                            img.setImageBitmap(alteredimg.insertionSort());*/
+                    }
+
                 }
             });
         }

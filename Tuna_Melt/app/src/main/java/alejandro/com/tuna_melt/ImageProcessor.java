@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 public class ImageProcessor {
     Bitmap mImage;
     boolean mIsError = false, isDone=false;
+    int[] pixels;
 
     public ImageProcessor(final Bitmap image) {
         mImage = image.copy(image.getConfig(), image.isMutable());
@@ -187,6 +188,72 @@ public class ImageProcessor {
         newImage.setPixels(pixels, 0, width, 0, 0, width, height);
 
         return newImage;
+    }
+
+
+    public Bitmap mergeSort(){
+        if(mImage == null) {
+            return null;
+        }
+
+        int width = mImage.getWidth();
+        int height = mImage.getHeight();
+        int[] pixels = new int[width * height];
+        mImage.getPixels(pixels, 0, width, 0, 0, width, height);
+        int r = width*height;
+        sort(pixels, 0, r-1);
+
+        Bitmap newImage = Bitmap.createBitmap(width, height, mImage.getConfig());
+        newImage.setPixels(pixels, 0, width, 0, 0, width, height);
+        isDone = true;
+        return newImage;
+    }
+
+    private void merge(int[] myList, int l, int m, int r){
+        int n1=m-l+1;
+        int n2=r-m;
+        //create temp arrays
+        int L[]=new int[n1];
+        int R[]=new int[n2];
+        //copy to temp arrays
+        for(int i=0; i<n1; ++i){
+            L[i]=myList[l+i];
+        }
+        for(int j=0; j<n2; ++j){
+            R[j]=myList[m+j+1];
+        }
+        //merge the temp arrays
+        int i=0, j=0;
+        int k=l;
+        while(i<n1 && j<n2){
+            if(L[i]<=R[i]){
+                myList[k] = L[i];
+                i++;
+            }
+            else{
+                myList[k] = R[j];
+                j++;
+            }
+            k++;
+        }
+        while(i<n1){
+            myList[k] = L[i];
+            i++;
+            k++;
+        }
+        while(j<n2){
+            myList[k] = R[j];
+            j++;
+            k++;
+        }
+    }
+    private void sort(int[] myList, int l, int r){
+        if(l<r){
+            int m=(l+r)/2;//middle
+            sort(myList, l, m);//sort first half
+            sort(myList, m+1, r);//sort second half
+            merge(myList, l, m, r);//merge the sorted halves
+        }
     }
 
 
