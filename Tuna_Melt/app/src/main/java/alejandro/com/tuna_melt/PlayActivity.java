@@ -113,9 +113,6 @@ public class PlayActivity extends AppCompatActivity {
                     int hCheck=hv.getCheckedRadioButtonId();
                     switch(hCheck)
                     {
-                        case R.id.horizontal:
-                            horizontal=true;
-                            break;
                         case R.id.fullsort:
                             Bitmap selectedimg = ((BitmapDrawable) img.getDrawable()).getBitmap();
                             ImageProcessor alteredimg = new ImageProcessor(selectedimg);
@@ -160,6 +157,9 @@ public class PlayActivity extends AppCompatActivity {
                                 }
                                 img.setImageBitmap(image);
                             }
+                        case R.id.horizontal:
+                            horizontal=true;
+                            break;
                         default:
                             break;
                     }
@@ -175,6 +175,15 @@ public class PlayActivity extends AppCompatActivity {
                             {
                                 image = horzPartialSelectionSort(image, x * myBitmap.getWidth());
                             }
+                            img.setImageBitmap(image);
+                        }
+                        else
+                        {
+                            for(int x=0;x<myBitmap.getWidth();x++)
+                            {
+                                image = vertPartialSelectionSort(image, x);
+                            }
+                            img.setImageBitmap(image);
                         }
                     }
                     else
