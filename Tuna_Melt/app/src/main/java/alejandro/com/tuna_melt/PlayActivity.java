@@ -30,7 +30,10 @@ public class PlayActivity extends AppCompatActivity {
     int start=0;
     private SeekBar bar;
     private TextView barText;
+    private RadioGroup hv;
     private int imgIterator;
+    private int sortedRows,sortedCols;
+    float hwRat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +49,9 @@ public class PlayActivity extends AppCompatActivity {
         bar.setMax(10);
         bar.setProgress(0);
         barText=findViewById(R.id.seekBarAmt);
-
+        hv=findViewById(R.id.horizVert);
+        sortedRows=0;
+        sortedCols=0;
         imgmelt.setVisibility(View.GONE);//make the melt button invisible until an image is selected
         reset.setVisibility(View.GONE);
         img.setImageResource(R.drawable.ic_launcher_background);
@@ -104,48 +109,142 @@ public class PlayActivity extends AppCompatActivity {
                         imgIterator = 0;
                     }
 
-                    if (imgIterator == 10) {
-                        Bitmap selectedimg = ((BitmapDrawable) img.getDrawable()).getBitmap();
+                    boolean horizontal=false;
+                    int hCheck=hv.getCheckedRadioButtonId();
+                    switch(hCheck)
+                    {
+                        case R.id.horizontal:
+                            horizontal=true;
+                            break;
+                        default:
+                            break;
+                    }
+                    double dpartitions=calculatePartitionSize(imgIterator,horizontal,myBitmap.getHeight(),myBitmap.getWidth(),hwRat);
+                    int partitions=(int)dpartitions;
+                    Bitmap image=((BitmapDrawable)img.getDrawable()).getBitmap();
+                    Toast.makeText(PlayActivity.this,"parts: "+partitions+" img"+imgIterator,Toast.LENGTH_LONG).show();
+                    if(imgIterator==10)
+                    {
+                        if(horizontal)
+                        {
+                            for(int x=0;x<myBitmap.getHeight();x++)
+                            {
+                                image = horzPartialSelectionSort(image, x * myBitmap.getWidth());
+                            }
+                            img.setImageBitmap(image);
+                        }
+                        else
+                        {
+                            for(int x=0;x<myBitmap.getWidth();x++)
+                            {
+                                image = vertPartialSelectionSort(image, x);
+                            }
+                            img.setImageBitmap(image);
+                        }
+
+                        /*Bitmap selectedimg = ((BitmapDrawable)img.getDrawable()).getBitmap();
                         ImageProcessor alteredimg = new ImageProcessor(selectedimg);
-                        Toast.makeText(PlayActivity.this, "Image melting...", Toast.LENGTH_SHORT).show();
-                        img.setImageBitmap(alteredimg.insertionSort());
+                        Toast.makeText(MainActivity.this, "Image melting...", Toast.LENGTH_SHORT).show();
+                        img.setImageBitmap(alteredimg.insertionSort());*/
                     }
                     else {
-                        Bitmap selectedimg = ((BitmapDrawable) img.getDrawable()).getBitmap();
-                        ImageProcessor alteredimg = new ImageProcessor(selectedimg);
-                        boolean notDone = !alteredimg.isDone;
-                        if (notDone) {
-                            int checked = sortgroup.getCheckedRadioButtonId();
-                            switch (checked) {
-                                case R.id.selection://melts by parts, selection
-                                    selectedimg = ((BitmapDrawable) img.getDrawable()).getBitmap();
-                                    alteredimg = new ImageProcessor(selectedimg);
-                                    img.setImageBitmap(alteredimg.partialSelectionSort(start, 1000 * (imgIterator + 1)));
-                                    start += 1000 * (imgIterator + 1);
-                                    notDone = !alteredimg.isDone;
-                                    break;
-
-                                case R.id.insertion://melts by parts, insertion
-                                    selectedimg = ((BitmapDrawable) img.getDrawable()).getBitmap();
-                                    alteredimg = new ImageProcessor(selectedimg);
-                                    img.setImageBitmap(alteredimg.partialInsertionSort(start, 1000 * (imgIterator + 1)));
-                                    start += 1000 * (imgIterator + 1);
-                                    notDone = !alteredimg.isDone;
-                                    break;
-
-                                default:
-                                    break;
-                            }
-                        }
-                        else {
-                            Toast.makeText(PlayActivity.this, "Image melted!", Toast.LENGTH_SHORT).show();
+                        int sortCheck=hv.getCheckedRadioButtonId();
+                        switch(sortCheck)
+                        {
+                            case R.id.selection:
+                                if(horizontal)
+                                {
+                                    for(int x=0;x<partitions;x++)
+                                    {
+                                        image = horzPartialSelectionSort(image, x * myBitmap.getWidth());
+                                    }
+                                    img.setImageBitmap(image);
+                                }
+                                else
+                                {
+                                    for(int x=0;x<partitions;x++)
+                                    {
+                                        image=vertPartialSelectionSort(image,x);
+                                    }
+                                }
+                                break;
+                            case R.id.insertion:
+                                break;
+                            default:
+                                break;
                         }
                     }
                 }
             });
         }
     }
+    public Bitmap vertPartialSelectionSort(Bitmap mImage, int start){
+        boolean isDone=false;
+        if(mImage == null) {
+            return null;
+        }
 
+        int width = mImage.getWidth();
+        int height = mImage.getHeight();
+        int[] pixels = new int[width * height];
+        mImage.getPixels(pixels, 0, width, 0, 0, width, height);
+
+        //selection sort on the pixels
+        for(int i = start; i < pixels.length; i+=width+1){
+            int min_idx=i;
+            for(int j=i+1; j<pixels.length; j+=width+1){
+                if(pixels[j] < pixels[min_idx]){
+                    min_idx=j;
+                }
+            }
+            //swap the min with the first element
+            int temp = pixels[min_idx];
+            pixels[min_idx] = pixels[i];
+            pixels[i] = temp;
+        }
+
+        Bitmap newImage = Bitmap.createBitmap(width, height, mImage.getConfig());
+        newImage.setPixels(pixels, 0, width, 0, 0, width, height);
+        return newImage;
+    }
+    public Bitmap horzPartialSelectionSort(Bitmap mImage,int start)
+    {
+        boolean isDone=false;
+        if(mImage == null) {
+            return null;
+        }
+
+        int width = mImage.getWidth();
+        int height = mImage.getHeight();
+
+        int[] pixels = new int[width * height];
+        mImage.getPixels(pixels, 0, width, 0, 0, width, height);
+
+        //selection sort on the pixels
+        for(int i = start; i < mImage.getWidth()+start; i++){
+            int min_idx=i;
+            for(int j=i+1; j<mImage.getWidth()+start; j++){
+                if(pixels[j] < pixels[min_idx]){
+                    min_idx=j;
+                }
+            }
+            //swap the min with the first element
+            int temp = pixels[min_idx];
+            pixels[min_idx] = pixels[i];
+            pixels[i] = temp;
+        }
+
+        Bitmap newImage = Bitmap.createBitmap(width, height, mImage.getConfig());
+        newImage.setPixels(pixels, 0, width, 0, 0, width, height);
+        return newImage;
+    }
+    int calculatePartitionSize(int speed,boolean horizontal,int h,int w,float ratio)
+    {
+        if(horizontal)
+            return h/(speed+1);
+        else
+            return w/(speed+1);
+    }
 
     @Override
     protected void onActivityResult(int reqCode, int resultCode, Intent data) {
@@ -156,7 +255,7 @@ public class PlayActivity extends AppCompatActivity {
             final Uri imageURI = data.getData();
             try {
                 Bitmap selectedImage = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageURI);
-                float hwRat = (float) selectedImage.getHeight() / selectedImage.getWidth();
+                hwRat = (float) selectedImage.getHeight() / selectedImage.getWidth();
                 if (selectedImage.getHeight() >= 420 || selectedImage.getWidth() >= 300) {
                     Toast.makeText(PlayActivity.this, "Image too large!(" + selectedImage.getWidth() + "," + selectedImage.getHeight() + "). Resizing...", Toast.LENGTH_LONG).show();
                     selectedImage = resizeBitmap(selectedImage, 300, Math.round(300 * hwRat));

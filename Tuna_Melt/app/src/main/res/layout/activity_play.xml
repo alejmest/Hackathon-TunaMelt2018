@@ -92,5 +92,29 @@
         app:layout_constraintTop_toBottomOf="@+id/seekBarAmt"
         tools:layout_editor_absoluteX="0dp" />
 
+    <RadioGroup
+        android:id="@+id/horizVert"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/incAmt"
+        tools:layout_editor_absoluteX="0dp">
+
+        <RadioButton
+            android:id="@+id/horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="Horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/unaltered"
+            tools:layout_editor_absoluteX="0dp" />
+
+        <RadioButton
+            android:id="@+id/vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Vertical" />
+    </RadioGroup>
 
 </android.support.constraint.ConstraintLayout>
