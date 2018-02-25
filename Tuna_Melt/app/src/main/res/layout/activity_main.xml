@@ -6,4 +6,21 @@
     android:layout_height="match_parent"
     tools:context="alejandro.com.tuna_melt.MainActivity">
 
+    <Button
+        android:id="@+id/imgsel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select image"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp" />
+
+    <ImageView
+        android:id="@+id/unaltered"
+        android:layout_width="380dp"
+        android:layout_height="507dp"
+
+        android:visibility="visible"
+        tools:layout_editor_absoluteX="2dp"
+        tools:layout_editor_absoluteY="1dp" />
+
 </android.support.constraint.ConstraintLayout>
