@@ -23,6 +23,16 @@
         app:layout_constraintStart_toEndOf="@+id/imgsel"
         tools:layout_editor_absoluteY="0dp" />
 
+    <Button
+        android:id="@+id/reset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:text="Reset"
+        app:layout_constraintStart_toEndOf="@+id/imgmelt"
+        tools:layout_editor_absoluteY="0dp" />
+
+
     <ImageView
         android:id="@+id/unaltered"
         android:layout_width="match_parent"

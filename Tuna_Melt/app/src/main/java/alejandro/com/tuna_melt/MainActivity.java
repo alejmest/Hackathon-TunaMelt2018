@@ -21,17 +21,17 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Bitmap mImage=null;
+    private Bitmap myBitmap;
     private boolean mIsError = false;
     private ImageView img;
-    private Button imgsel, imgmelt;
+    private Button imgsel, imgmelt, reset;
     private RadioGroup sortgroup;
     private int GALLERY_REQUEST=-1;
     private int imgIterator;
     private SeekBar bar;
     private TextView barText;
     int start=0;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -41,12 +41,16 @@ public class MainActivity extends AppCompatActivity {
         imgsel = findViewById(R.id.imgsel);
         imgmelt = findViewById(R.id.imgmelt);
         img = findViewById(R.id.unaltered);
+        reset = findViewById(R.id.reset);
         sortgroup = findViewById(R.id.radioSort);
         bar=findViewById(R.id.incAmt);
         bar.setMax(10);
         bar.setProgress(0);
         barText=findViewById(R.id.seekBarAmt);
         imgmelt.setVisibility(View.GONE);//make the melt button invisible until an image is selected
+        reset.setVisibility(View.GONE);
+        img.setImageResource(R.drawable.ic_launcher_background);
+
         imgsel.setOnClickListener(new View.OnClickListener()
         {
             public void onClick(View v) {
@@ -74,6 +78,15 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        if(reset.isCursorVisible())
+        {
+            reset.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    img.setImageBitmap(myBitmap);
+                    start=0;
+                }
+            });
+        }
         if(imgmelt.isCursorVisible()){
             imgmelt.setOnClickListener(new View.OnClickListener(){
                 public void onClick(View v){
@@ -152,8 +165,11 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this,"Image too large!("+selectedImage.getWidth()+","+selectedImage.getHeight()+"). Resizing...",Toast.LENGTH_LONG).show();
                     selectedImage=resizeBitmap(selectedImage,300,Math.round(300*hwRat));
                 }
+                start=0;
+                myBitmap = selectedImage;
                 img.setImageBitmap(selectedImage);
                 imgmelt.setVisibility(View.VISIBLE);//make the melt button visible
+                reset.setVisibility(View.VISIBLE);
 
             } catch (IOException e) {
                 e.printStackTrace();
