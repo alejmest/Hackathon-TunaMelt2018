@@ -13,6 +13,8 @@ import android.widget.ImageView;
 import java.lang.Thread;
 import android.app.Activity;
 import android.net.Uri;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
@@ -21,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean mIsError = false;
     private ImageView img;
     private Button imgsel, imgmelt;
+    private RadioGroup sortgroup;
     private int GALLERY_REQUEST=-1;
     private int imgIterator;
     int start=0;
@@ -34,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
         imgsel = findViewById(R.id.imgsel);
         imgmelt = findViewById(R.id.imgmelt);
         img = findViewById(R.id.unaltered);
+        sortgroup = findViewById(R.id.radioSort);
+
 
         imgmelt.setVisibility(View.GONE);//make the melt button invisible until an image is selected
         img.setImageResource(R.drawable.ic_launcher_background);
@@ -60,37 +65,35 @@ public class MainActivity extends AppCompatActivity {
                     img.setImageBitmap(alteredimg.insertionSort());
                     */
 
-                    /*
-                    //melts by parts, selection
+
                     Bitmap selectedimg = ((BitmapDrawable)img.getDrawable()).getBitmap();
                     ImageProcessor alteredimg = new ImageProcessor(selectedimg);
                     boolean notDone = !alteredimg.isDone;
                     if(notDone) {
-                        selectedimg = ((BitmapDrawable) img.getDrawable()).getBitmap();
-                        alteredimg = new ImageProcessor(selectedimg);
-                        img.setImageBitmap(alteredimg.partialSelectionSort(start, 1000));
-                        start += 1000;
-                        notDone = !alteredimg.isDone;
+                        int checked = sortgroup.getCheckedRadioButtonId();
+                        switch (checked) {
+                            case R.id.selection://melts by parts, selection
+                                selectedimg = ((BitmapDrawable) img.getDrawable()).getBitmap();
+                                alteredimg = new ImageProcessor(selectedimg);
+                                img.setImageBitmap(alteredimg.partialSelectionSort(start, 1000));
+                                start += 1000;
+                                notDone = !alteredimg.isDone;
+                                break;
+
+                            case R.id.insertion://melts by parts, insertion
+                                selectedimg = ((BitmapDrawable) img.getDrawable()).getBitmap();
+                                alteredimg = new ImageProcessor(selectedimg);
+                                img.setImageBitmap(alteredimg.partialInsertionSort(start, 1000));
+                                start += 1000;
+                                notDone = !alteredimg.isDone;
+                                break;
+
+                            default:
+                                break;
+                        }
                     }
                     else{
-                        Toast.makeText(MainActivity.this, "Image melted!", Toast.LENGTH_LONG).show();
-                    }
-                    */
-
-
-                    //melts by parts, insertion
-                    Bitmap selectedimg = ((BitmapDrawable)img.getDrawable()).getBitmap();
-                    ImageProcessor alteredimg = new ImageProcessor(selectedimg);
-                    boolean notDone = !alteredimg.isDone;
-                    if(notDone) {
-                        selectedimg = ((BitmapDrawable) img.getDrawable()).getBitmap();
-                        alteredimg = new ImageProcessor(selectedimg);
-                        img.setImageBitmap(alteredimg.partialInsertionSort(start, 1000));
-                        start += 1000;
-                        notDone = !alteredimg.isDone;
-                    }
-                    else{
-                        Toast.makeText(MainActivity.this, "Image melted!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(MainActivity.this, "Image melted!", Toast.LENGTH_SHORT).show();
                     }
 
 
