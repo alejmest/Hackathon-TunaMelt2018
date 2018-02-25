@@ -1,26 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="alejandro.com.tuna_melt.MainActivity">
 
     <Button
-        android:id="@+id/imgselButton"
+        android:id="@+id/imgsel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Select image"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="0dp" />
 
-    <ImageView
-        android:id="@+id/unaltered"
+    <Button
+        android:id="@+id/imgmelt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Melt!"
+        app:layout_constraintStart_toEndOf="@+id/imgsel"
+        tools:layout_editor_absoluteY="0dp" />
 
+    <ImageView
+        android:id="@+id/unaltered"
+        android:layout_width="142dp"
+        android:layout_height="127dp"
+
+        android:layout_marginTop="8dp"
         android:visibility="visible"
-        tools:layout_editor_absoluteX="2dp"
-        tools:layout_editor_absoluteY="1dp" />
+        app:layout_constraintTop_toBottomOf="@+id/imgsel"
+        tools:layout_editor_absoluteX="0dp" />
 
 
 
