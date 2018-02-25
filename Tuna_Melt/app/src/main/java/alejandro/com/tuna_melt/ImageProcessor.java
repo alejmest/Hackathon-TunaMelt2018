@@ -2,6 +2,7 @@ package alejandro.com.tuna_melt;
 
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 
 public class ImageProcessor {
@@ -128,5 +129,65 @@ public class ImageProcessor {
         newImage.setPixels(pixels, 0, width, 0, 0, width, height);
         return newImage;
     }
+
+    public Bitmap insertionSort(){
+        if(mImage == null) {
+            return null;
+        }
+
+        int width = mImage.getWidth();
+        int height = mImage.getHeight();
+        int[] pixels = new int[width * height];
+        mImage.getPixels(pixels, 0, width, 0, 0, width, height);
+
+        for(int i=1; i<pixels.length; i++){
+            int key = pixels[i];
+            int j=i-1;
+            while(j>=0 && pixels[j]>key){
+                pixels[j+1] = pixels[j];
+                j --;
+            }
+            pixels[j+1] = key;
+        }
+
+        Bitmap newImage = Bitmap.createBitmap(width, height, mImage.getConfig());
+        newImage.setPixels(pixels, 0, width, 0, 0, width, height);
+
+        return newImage;
+    }
+
+    public Bitmap partialInsertionSort(int start, int incr){
+        if(mImage == null) {
+            return null;
+        }
+
+        int width = mImage.getWidth();
+        int height = mImage.getHeight();
+        int[] pixels = new int[width * height];
+        mImage.getPixels(pixels, 0, width, 0, 0, width, height);
+
+        int stop = incr+start;
+        if(start>pixels.length)start=pixels.length;
+        if(stop>=pixels.length){
+            isDone = true;
+            stop=pixels.length;
+        }
+
+        for(int i=1; i<stop; i++){
+            int key = pixels[i];
+            int j=i-1;
+            while(j>=0 && pixels[j]>key){
+                pixels[j+1] = pixels[j];
+                j --;
+            }
+            pixels[j+1] = key;
+        }
+
+        Bitmap newImage = Bitmap.createBitmap(width, height, mImage.getConfig());
+        newImage.setPixels(pixels, 0, width, 0, 0, width, height);
+
+        return newImage;
+    }
+
 
 }

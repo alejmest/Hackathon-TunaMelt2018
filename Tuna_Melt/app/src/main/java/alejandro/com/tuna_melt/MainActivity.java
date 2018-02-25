@@ -57,9 +57,11 @@ public class MainActivity extends AppCompatActivity {
                     Bitmap selectedimg = ((BitmapDrawable)img.getDrawable()).getBitmap();
                     ImageProcessor alteredimg = new ImageProcessor(selectedimg);
                     Toast.makeText(MainActivity.this, "Image melting...", Toast.LENGTH_SHORT).show();
-                    img.setImageBitmap(alteredimg.selectionSort());
+                    img.setImageBitmap(alteredimg.insertionSort());
                     */
-                    //melts by parts
+
+                    /*
+                    //melts by parts, selection
                     Bitmap selectedimg = ((BitmapDrawable)img.getDrawable()).getBitmap();
                     ImageProcessor alteredimg = new ImageProcessor(selectedimg);
                     boolean notDone = !alteredimg.isDone;
@@ -71,8 +73,27 @@ public class MainActivity extends AppCompatActivity {
                         notDone = !alteredimg.isDone;
                     }
                     else{
-                        Toast.makeText(MainActivity.this, "Image melted!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Image melted!", Toast.LENGTH_LONG).show();
                     }
+                    */
+
+
+                    //melts by parts, insertion
+                    Bitmap selectedimg = ((BitmapDrawable)img.getDrawable()).getBitmap();
+                    ImageProcessor alteredimg = new ImageProcessor(selectedimg);
+                    boolean notDone = !alteredimg.isDone;
+                    if(notDone) {
+                        selectedimg = ((BitmapDrawable) img.getDrawable()).getBitmap();
+                        alteredimg = new ImageProcessor(selectedimg);
+                        img.setImageBitmap(alteredimg.partialInsertionSort(start, 1000));
+                        start += 1000;
+                        notDone = !alteredimg.isDone;
+                    }
+                    else{
+                        Toast.makeText(MainActivity.this, "Image melted!", Toast.LENGTH_LONG).show();
+                    }
+
+
                 }
             });
         }
